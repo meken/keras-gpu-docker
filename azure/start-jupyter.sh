@@ -12,7 +12,7 @@ wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.0/nv
 sudo dpkg -i /tmp/nvidia-docker*.deb && rm /tmp/nvidia-docker*.deb
 
 # Checkout the code
-git clone https://github.com/meken/keras-gpu-docker.git
+git clone https://github.com/meken/keras-gpu-docker.git keras
 
 cd keras/docker
 
