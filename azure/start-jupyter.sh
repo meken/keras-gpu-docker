@@ -5,6 +5,7 @@ sudo apt-get install -y build-essential
 
 # Download & install the NVIDIA driver
 wget -P /tmp http://us.download.nvidia.com/XFree86/Linux-x86_64/375.26/NVIDIA-Linux-x86_64-375.26.run
+chmod u+x /tmp/NVIDIA-Linux*.run
 sudo /tmp/NVIDIA-Linux*.run --silent
 
 # Assuming that docker is already installed, install nvidia-docker and nvidia-docker-plugin
