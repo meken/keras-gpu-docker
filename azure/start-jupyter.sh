@@ -21,4 +21,4 @@ cd keras/docker
 docker build -t tensorflow:gpu .
 
 # Leaving out the -it option as we expect this to be run silently
-nvidia-docker run -d -p 80:8888 -v ~/keras/notebooks:/notebooks -e "PASSWORD=$1" tensorflow:gpu
+nvidia-docker run -d -p 80:8888 -v ../notebooks:/notebooks -e "PASSWORD=$1" tensorflow:gpu
