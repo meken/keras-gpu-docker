@@ -1,6 +1,39 @@
 #!/bin/bash
 
-NVIDIA_DRIVER_VERSION=375.26
+NVIDIA_DRIVER_VERSION=375.39
+DOCKER_VERSION="docker-ce"
+DOCKER_COMPOSE_VERSION="1.11.2"
+DOCKER_MACHINE_VERSION="0.10.0"
+
+
+
+# Update system and install docker
+	DEBIAN_FRONTEND=noninteractive apt-mark hold walinuxagent
+	DEBIAN_FRONTEND=noninteractive apt-get -y update
+	apt-get install -y apt-transport-https ca-certificates curl
+	DEBIAN_FRONTEND=noninteractive apt-get -y update
+	DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
+	apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtua
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	add-apt-repository \
+	"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+	$(lsb_release -cs) \
+	stable"
+	DEBIAN_FRONTEND=noninteractive apt-get -y update
+	#apt-cache policy docker-engine
+	#groupadd docker
+	#usermod -aG docker $userName
+	apt-get -y install $DOCKER_VERSION
+	/etc/init.d/apparmor stop 
+	/etc/init.d/apparmor teardown 
+	update-rc.d -f apparmor remove
+	apt-get -y remove apparmor
+	curl -L https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+	curl -L https://github.com/docker/machine/releases/download/v$DOCKER_MACHINE_VERSION/docker-machine-`uname -s`-`uname -m` >/usr/local/bin/docker-machine
+	chmod +x /usr/local/bin/docker-machine
+	chmod +x /usr/local/bin/docker-compose
+	export PATH=$PATH:/usr/local/bin/
+	systemctl restart docker
 
 # Getting ready for the NVIDIA driver installation
 sudo apt-get install -y build-essential
