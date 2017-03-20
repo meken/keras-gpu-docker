@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NVIDIA_DRIVER_VERSION=375.26
+NVIDIA_DRIVER_VERSION=375.39
 
 # Getting ready for the NVIDIA driver installation
 sudo apt-get install -y build-essential
