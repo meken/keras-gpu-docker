@@ -29,9 +29,9 @@ RUN pip --no-cache-dir install \
         scipy \
         sklearn \
         Pillow \
-	pandas \
-	seaborn \
-	keras \
+        pandas \
+        seaborn \
+        keras==1.2.0 \
         && \
     python -m ipykernel.kernelspec
 
