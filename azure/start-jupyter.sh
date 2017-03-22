@@ -27,7 +27,7 @@ dpkg -i /tmp/nvidia-docker*.deb && rm /tmp/nvidia-docker*.deb
 BASE_DIR=`pwd`
 
 # Checkout the code
-git clone https://github.com/meken/keras-gpu-docker.git keras
+git clone -b v1.0 https://github.com/meken/keras-gpu-docker.git keras
 
 cd keras/docker
 
