@@ -220,7 +220,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/meken/keras-gpu-docker/master/azure/start-jupyter.sh"
+            "https://raw.githubusercontent.com/meken/keras-gpu-docker/v2.0/azure/start-jupyter.sh"
           ],
           "commandToExecute": "[concat('sh start-jupyter.sh', ' ', parameters('jupyterPassword'))]"
         }

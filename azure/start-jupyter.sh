@@ -1,8 +1,8 @@
 #!/bin/bash
 
-NVIDIA_DRIVER_VERSION=375.26
-NVIDIA_DOCKER_VERSION=1.0.0
-DOCKER_VERSION=1.12.6-0~ubuntu-xenial
+NVIDIA_DRIVER_VERSION=375.39
+NVIDIA_DOCKER_VERSION=1.0.1
+DOCKER_VERSION=17.03.0~ce-0~ubuntu-xenial
 
 # Getting ready for the NVIDIA driver installation
 apt-get update && apt-get install -y build-essential
@@ -12,11 +12,12 @@ wget -P /tmp http://us.download.nvidia.com/XFree86/Linux-x86_64/$NVIDIA_DRIVER_V
 chmod u+x /tmp/NVIDIA-Linux*.run
 /tmp/NVIDIA-Linux*.run --silent
 
-
-# Install a specific version of docker
-apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" >> /etc/apt/sources.list.d/docker.list
-apt-get update && apt-get install -y docker-engine="$DOCKER_VERSION"
+# Install docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update && apt-get install -y docker-ce="$DOCKER_VERSION"
+# Allow non-root users to use docker without sudo
+usermod -aG docker `getent group sudo | cut -d: -f4`
 
 
 # Assuming that docker is already installed, install nvidia-docker and nvidia-docker-plugin

@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn5-devel
+FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
 
 # Pick up some TF dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -31,13 +31,13 @@ RUN pip --no-cache-dir install \
         Pillow \
         pandas \
         seaborn \
-        keras==1.2.0 \
+        keras \
         && \
     python -m ipykernel.kernelspec
 
 # Install TensorFlow GPU version from central repo
 RUN pip --no-cache-dir install \
-    http://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-0.12.1-cp27-none-linux_x86_64.whl
+    http://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.0.1-cp27-none-linux_x86_64.whl
 
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/
