@@ -28,7 +28,7 @@ dpkg -i /tmp/nvidia-docker*.deb && rm /tmp/nvidia-docker*.deb
 BASE_DIR=`pwd`
 
 # Checkout the code
-git clone -b v2.0 https://github.com/meken/keras-gpu-docker.git keras
+git clone -b v2.0 https://github.com/kbhattmsft/keras-gpu-docker.git keras
 
 cd keras/docker
 
@@ -37,6 +37,8 @@ docker build -t tensorflow:gpu .
 
 # Create the nvidia volume to prevent issues later, see https://github.com/NVIDIA/nvidia-docker/issues/112
 docker volume create -d nvidia-docker --name nvidia_driver_$NVIDIA_DRIVER_VERSION
+
+# Install notebook service
 
 # Leaving out the -it option as we expect this to be run silently
 nvidia-docker run -d -p 80:8888 -v $BASE_DIR/keras/notebooks:/notebooks -e "PASSWORD=$1" tensorflow:gpu
