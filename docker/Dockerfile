@@ -39,22 +39,31 @@ RUN pip --no-cache-dir install \
 RUN pip --no-cache-dir install \
     http://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.0.1-cp27-none-linux_x86_64.whl
 
-# Set up our notebook config.
-COPY jupyter_notebook_config.py /root/.jupyter/
-
-RUN mkdir /notebooks
-
-# Jupyter has issues with being run directly:
-#   https://github.com/ipython/ipython/issues/7062
-# We just add a little wrapper script.
-COPY run_jupyter.sh /root/
-
 # TensorBoard
 EXPOSE 6006
 # IPython
 EXPOSE 8888
 
-WORKDIR "/notebooks"
+# We'd like to run jupyter with the non-root user jupyter
+RUN useradd -ms /bin/bash jupyter
 
-CMD ["/root/run_jupyter.sh", "/notebooks"]
+WORKDIR "/home/jupyter/"
 
+# Set up our notebook config.
+COPY jupyter_notebook_config.py .jupyter/
+
+# Jupyter has issues with being run directly:
+#   https://github.com/ipython/ipython/issues/7062
+# We just add a little wrapper script.
+COPY run_jupyter.sh .
+
+RUN mkdir notebooks
+
+# ADD/COPY doesn't respect the USER option:
+#   https://github.com/moby/moby/issues/6119
+# Fixing it by adding another layer :(
+RUN chown -R jupyter:jupyter .
+
+USER "jupyter"
+
+CMD ["./run_jupyter.sh", "notebooks"]
