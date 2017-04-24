@@ -29,11 +29,9 @@ dpkg -i /tmp/nvidia-docker*.deb && rm /tmp/nvidia-docker*.deb
 # Allow non-root users to use docker without sudo
 usermod -aG docker `getent group sudo | cut -d: -f4`
 
-sudo -i -u $USER /bin/bash
-
-# Docker needs absolute paths for volume mapping, retrieving the working directory
-BASE_DIR=`pwd`
-
+# Docker needs absolute paths for volume mapping, using the home dir for the $USER as the base
+BASE_DIR=/home/$USER
+sudo -i -u $USER <<EOF
 # Checkout the code
 git clone -b v2.0 https://github.com/meken/keras-gpu-docker.git keras
 
@@ -47,3 +45,4 @@ docker volume create -d nvidia-docker --name nvidia_driver_$NVIDIA_DRIVER_VERSIO
 
 # Leaving out the -it option as we expect this to be run silently
 nvidia-docker run -d -p 80:8888 -v $BASE_DIR/keras/notebooks:/notebooks -e "PASSWORD=$1" tensorflow:gpu
+EOF
