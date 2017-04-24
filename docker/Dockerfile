@@ -57,13 +57,14 @@ COPY jupyter_notebook_config.py .jupyter/
 # We just add a little wrapper script.
 COPY run_jupyter.sh .
 
-RUN mkdir notebooks
-
 # ADD/COPY doesn't respect the USER option:
 #   https://github.com/moby/moby/issues/6119
 # Fixing it by adding another layer :(
 RUN chown -R jupyter:jupyter .
 
+# Assuming that this will be a mapped volume that will have the same uid/gid as the jupyter user
+RUN mkdir /notebooks
+
 USER "jupyter"
 
-CMD ["./run_jupyter.sh", "notebooks"]
+CMD ["./run_jupyter.sh", "/notebooks"]

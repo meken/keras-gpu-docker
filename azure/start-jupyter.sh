@@ -4,6 +4,11 @@ NVIDIA_DRIVER_VERSION=375.39
 NVIDIA_DOCKER_VERSION=1.0.1
 DOCKER_VERSION=17.03.0~ce-0~ubuntu-xenial
 
+# In order to fix the permissions of the mapped volume, we're using the admin user, which is the first user that is
+# created on the VM. In the Docker image we've got the 'jupyter' user which is also the first user, hence the
+# uids match and that Docker user can read/write from/to the mapped volume (notebooks)
+USER=$2
+
 # Getting ready for the NVIDIA driver installation
 apt-get update && apt-get install -y build-essential
 
@@ -16,13 +21,15 @@ chmod u+x /tmp/NVIDIA-Linux*.run
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 apt-get update && apt-get install -y docker-ce="$DOCKER_VERSION"
-# Allow non-root users to use docker without sudo
-usermod -aG docker `getent group sudo | cut -d: -f4`
-
 
 # Assuming that docker is already installed, install nvidia-docker and nvidia-docker-plugin
 wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v$NVIDIA_DOCKER_VERSION/nvidia-docker_$NVIDIA_DOCKER_VERSION-1_amd64.deb
 dpkg -i /tmp/nvidia-docker*.deb && rm /tmp/nvidia-docker*.deb
+
+# Allow non-root users to use docker without sudo
+usermod -aG docker `getent group sudo | cut -d: -f4`
+
+sudo -i -u $USER /bin/bash
 
 # Docker needs absolute paths for volume mapping, retrieving the working directory
 BASE_DIR=`pwd`
@@ -39,4 +46,4 @@ docker build -t tensorflow:gpu .
 docker volume create -d nvidia-docker --name nvidia_driver_$NVIDIA_DRIVER_VERSION
 
 # Leaving out the -it option as we expect this to be run silently
-nvidia-docker run -d -p 80:8888 -v $BASE_DIR/keras/notebooks:/home/jupyter/notebooks -e "PASSWORD=$1" tensorflow:gpu
+nvidia-docker run -d -p 80:8888 -v $BASE_DIR/keras/notebooks:/notebooks -e "PASSWORD=$1" tensorflow:gpu
