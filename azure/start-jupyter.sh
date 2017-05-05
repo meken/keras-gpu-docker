@@ -44,5 +44,5 @@ docker build -t tensorflow:gpu .
 docker volume create -d nvidia-docker --name nvidia_driver_$NVIDIA_DRIVER_VERSION
 
 # Leaving out the -it option as we expect this to be run silently
-nvidia-docker run -d -p 80:8888 -v $BASE_DIR/keras/notebooks:/notebooks -e "PASSWORD=$1" tensorflow:gpu
+nvidia-docker run -d -p 80:8888 -v $BASE_DIR/keras/notebooks:/notebooks -e "PASSWORD=$1" --restart=unless-stopped tensorflow:gpu
 EOF

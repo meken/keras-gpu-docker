@@ -15,10 +15,9 @@ this should give a starting point for more elaborate models and larger datasets.
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmeken%2Fkeras-gpu-docker%2Fv2.0%2Fazure%2Fazuredeploy.json)
 [![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fmeken%2Fkeras-gpu-docker%2Fv2.0%2Fazure%2Fazuredeploy.json)
 
-> Please note that N-series (GPU enabled instances) are not available in all
-> regions. Please take that into consideration when you're creating the resource
-> group as the location of the resource group is taken as a basis for all 
-> resources
+> Please note that NC-series (GPU enabled instances) are not available in all
+> regions, the location parameter reflects that by allowing only the regions
+> where these instances are available. 
 
 This basically provisions an N-series instance running Ubuntu on Azure. The machine has 
 nvidia-docker installed and starts the Jupyter notebooks with a sample notebook 
