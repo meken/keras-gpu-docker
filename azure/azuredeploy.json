@@ -13,10 +13,14 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "East US",
+      "defaultValue": "West Europe",
       "allowedValues": [
         "East US",
-        "South Central US"
+        "North Central US",
+        "South Central US",
+        "West US 2",
+        "North Europe",
+        "West Europe"
       ],
       "metadata": {
         "description": "The base location for the virtual machine and the network resources."
