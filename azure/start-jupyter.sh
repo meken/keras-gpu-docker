@@ -2,7 +2,7 @@
 
 NVIDIA_DRIVER_VERSION=384.59
 NVIDIA_DOCKER_VERSION=1.0.1
-DOCKER_VERSION=17.06.0~ce-0~ubuntu-xenial
+DOCKER_VERSION=17.06.0~ce-0~ubuntu
 
 # In order to fix the permissions of the mapped volume, we're using the admin user, which is the first user that is
 # created on the VM. In the Docker image we've got the 'jupyter' user which is also the first user, hence the
