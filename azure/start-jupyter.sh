@@ -1,21 +1,19 @@
 #!/bin/bash
 
-NVIDIA_DRIVER_VERSION=384.59
+NVIDIA_DRIVER_VERSION=384.66
 NVIDIA_DOCKER_VERSION=1.0.1
-DOCKER_VERSION=17.06.0~ce-0~ubuntu
+DOCKER_VERSION=17.09.0~ce-0~ubuntu
 
 # In order to fix the permissions of the mapped volume, we're using the admin user, which is the first user that is
 # created on the VM. In the Docker image we've got the 'jupyter' user which is also the first user, hence the
 # uids match and that Docker user can read/write from/to the mapped volume (notebooks)
 USER=$2
 
-# Getting ready for the NVIDIA driver installation
-apt-get update && apt-get install -y build-essential
-
-# Download & install the NVIDIA driver
-wget -P /tmp http://us.download.nvidia.com/XFree86/Linux-x86_64/$NVIDIA_DRIVER_VERSION/NVIDIA-Linux-x86_64-$NVIDIA_DRIVER_VERSION.run
-chmod u+x /tmp/NVIDIA-Linux*.run
-/tmp/NVIDIA-Linux*.run --silent
+# Install the NVIDIA driver
+wget -P /tmp http://us.download.nvidia.com/tesla/$NVIDIA_DRIVER_VERSION/nvidia-diag-driver-local-repo-ubuntu1604-"$NVIDIA_DRIVER_VERSION"_1.0-1_amd64.deb
+dpkg -i /tmp/nvidia-diag-driver*.deb
+apt-key add /var/nvidia-diag-driver-local-repo-$NVIDIA_DRIVER_VERSION/7fa2af80.pub
+apt-get update && apt-get install -y --no-install-recommends cuda-drivers
 
 # Install docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -33,7 +31,7 @@ usermod -aG docker `getent group sudo | cut -d: -f4`
 BASE_DIR=/home/$USER
 sudo -i -u $USER <<EOF
 # Checkout the code
-git clone -b master https://github.com/meken/keras-gpu-docker.git keras
+git clone -b python3 https://github.com/meken/keras-gpu-docker.git keras
 
 cd keras/docker
 
