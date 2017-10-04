@@ -37,7 +37,7 @@ RUN pip --no-cache-dir install \
 
 # Install TensorFlow GPU version from central repo
 RUN pip --no-cache-dir install \
-    http://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.0.1-cp27-none-linux_x86_64.whl
+    https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp27-none-linux_x86_64.whl
 
 # TensorBoard
 EXPOSE 6006
