@@ -33,7 +33,7 @@ usermod -aG docker `getent group sudo | cut -d: -f4`
 BASE_DIR=/home/$USER
 sudo -i -u $USER <<EOF
 # Checkout the code
-git clone -b v3.0 https://github.com/meken/keras-gpu-docker.git keras
+git clone -b master https://github.com/meken/keras-gpu-docker.git keras
 
 cd keras/docker
 
