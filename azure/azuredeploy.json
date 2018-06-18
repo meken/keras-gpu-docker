@@ -14,14 +14,6 @@
     "location": {
       "type": "string",
       "defaultValue": "West Europe",
-      "allowedValues": [
-        "East US",
-        "North Central US",
-        "South Central US",
-        "West US 2",
-        "North Europe",
-        "West Europe"
-      ],
       "metadata": {
         "description": "The base location for the virtual machine and the network resources."
       }
@@ -53,10 +45,18 @@
         "Standard_NC6",
         "Standard_NC12",
         "Standard_NC24",
-        "Standard_NC24r"
+        "Standard_NC24r",
+        "Standard_NC6s_v2",
+        "Standard_NC12s_v2",
+        "Standard_NC24s_v2",
+        "Standard_NC24rs_v2",
+        "Standard_NC6s_v3",
+        "Standard_NC12s_v3",
+        "Standard_NC24s_v3",
+        "Standard_NC24rs_v3"
       ],
       "metadata": {
-        "description": "Size of the virtual machine used for hosting the containers"
+        "description": "Size of the virtual machine used for hosting the containers, v3 -> V100, v2 -> P100, no v -> K80"
       }
     }
   },
@@ -207,7 +207,7 @@
             "name": "[variables('vmName')]",
             "createOption": "FromImage",
             "managedDisk": {
-              "storageAccountType": "Standard_LRS"
+              "storageAccountType": "[if(contains(parameters('vmSize'), 's_v'), 'Premium_LRS', 'Standard_LRS')]"
             }
           }
         },
@@ -235,7 +235,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/meken/keras-gpu-docker/python3/azure/start-jupyter.sh"
+            "https://raw.githubusercontent.com/meken/keras-gpu-docker/v4.0/azure/install-drivers.sh"
           ],
           "commandToExecute": "[concat('sh start-jupyter.sh', ' ', parameters('jupyterPassword'), ' ', parameters('adminUsername'))]"
         }

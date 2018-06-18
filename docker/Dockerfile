@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn6-devel
+FROM nvidia/cuda:9.0-cudnn7-devel
 
 # Pick up some TF dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -29,12 +29,15 @@ RUN pip3 --no-cache-dir install \
         Pillow \
         pandas \
         seaborn \
-        keras \
+        keras==2.2.0 \
         && \
     python3 -m ipykernel.kernelspec
 
 # Install TensorFlow GPU version from central repo
-RUN pip3 --no-cache-dir install tensorflow-gpu
+RUN pip3 --no-cache-dir install tensorflow-gpu==1.8.0
+
+# Install CNTK GPU version from central repo
+RUN pip3 --no-cache-dir install cntk-gpu==2.5.1
 
 # TensorBoard
 EXPOSE 6006
