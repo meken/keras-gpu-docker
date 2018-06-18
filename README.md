@@ -23,8 +23,8 @@ this should give a starting point for more elaborate models and larger datasets.
 
 ### Running it on Azure
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmeken%2Fkeras-gpu-docker%2Fpython3%2Fazure%2Fazuredeploy.json)
-[![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fmeken%2Fkeras-gpu-docker%2Fpython3%2Fazure%2Fazuredeploy.json)
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmeken%2Fkeras-gpu-docker%2Fv4.0%2Fazure%2Fazuredeploy.json)
+[![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fmeken%2Fkeras-gpu-docker%2Fv4.0%2Fazure%2Fazuredeploy.json)
 
 > Please note that NC-series (GPU enabled instances) are not available in all
 > regions, please keep that in mind when selection the location 
