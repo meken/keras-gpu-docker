@@ -237,7 +237,7 @@
           "fileUris": [
             "https://raw.githubusercontent.com/meken/keras-gpu-docker/v4.0/azure/install-drivers.sh"
           ],
-          "commandToExecute": "[concat('sh start-jupyter.sh', ' ', parameters('jupyterPassword'), ' ', parameters('adminUsername'))]"
+          "commandToExecute": "[concat('sh install-drivers.sh', ' ', parameters('jupyterPassword'), ' ', parameters('adminUsername'))]"
         }
       }
     }
