@@ -1,3 +1,14 @@
+## Updates
+
+### 2018-06-18
+* Switched to Python3
+* Included the latest nvidia driver (384.145)
+* Upgraded to CUDA 9.0 and cuDNN 7.0
+* Upgraded to nvidia-docker2
+* Added support for CNTK (cntk-gpu v2.5.1)
+* Upgraded to keras v2.2.0, tensorflow-gpu v1.8.0
+* Docker 18.03
+
 # Predicting time series with LSTMs
 
 This repository contains data and a sample notebook to build a simple time series 
@@ -16,8 +27,7 @@ this should give a starting point for more elaborate models and larger datasets.
 [![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fmeken%2Fkeras-gpu-docker%2Fmaster%2Fazure%2Fazuredeploy.json)
 
 > Please note that NC-series (GPU enabled instances) are not available in all
-> regions, the location parameter reflects that by allowing only the regions
-> where these instances are available. 
+> regions, please keep that in mind when selection the location 
 
 This basically provisions an N-series instance running Ubuntu on Azure. The machine has 
 nvidia-docker installed and starts the Jupyter notebooks with a sample notebook 
@@ -27,8 +37,6 @@ VM's DNS name, and/or connect to the machine through SSH.
 Everything is setup to utilize the GPU of the machine for the training. Note 
 that the sample notebook only utilizes a single GPU; with Keras currently you 
 can only do model parallelization (training multiple models and averaging
-outcomes) if you want to go for multiple GPUs. If you need to do data 
-parallelization, you might need to access the underlying tensorflow layers
-and implement that yourself.
+outcomes). If you need to do data parallelization, you might want to consider the [Horovod](https://github.com/uber/horovod) project.
 
 

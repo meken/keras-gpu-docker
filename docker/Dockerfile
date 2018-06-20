@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
+FROM nvidia/cuda:9.0-cudnn7-devel
 
 # Pick up some TF dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -8,8 +8,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libpng12-dev \
         libzmq3-dev \
         pkg-config \
-        python \
-        python-dev \
+        python3 \
+        python3-dev \
+        python3-pip \
+        python3-setuptools \
         rsync \
         software-properties-common \
         unzip \
@@ -17,11 +19,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
-    python get-pip.py && \
-    rm get-pip.py
+# Tensorflow GPU 1.8 needs libcudnn 7.0
+# https://github.com/tensorflow/tensorflow/issues/17566 
+ENV CUDNN_VERSION 7.0.5.15
+LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
 
-RUN pip --no-cache-dir install \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+            --allow-downgrades \
+            libcudnn7=$CUDNN_VERSION-1+cuda9.0 \
+            libcudnn7-dev=$CUDNN_VERSION-1+cuda9.0 && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip3 --no-cache-dir install \
         ipykernel \
         jupyter \
         matplotlib \
@@ -31,13 +40,15 @@ RUN pip --no-cache-dir install \
         Pillow \
         pandas \
         seaborn \
-        keras \
+        keras==2.2.0 \
         && \
-    python -m ipykernel.kernelspec
+    python3 -m ipykernel.kernelspec
 
 # Install TensorFlow GPU version from central repo
-RUN pip --no-cache-dir install \
-    https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp27-none-linux_x86_64.whl
+RUN pip3 --no-cache-dir install tensorflow-gpu==1.8.0
+
+# Install CNTK GPU version from central repo
+RUN pip3 --no-cache-dir install cntk-gpu==2.5.1
 
 # TensorBoard
 EXPOSE 6006
